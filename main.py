@@ -81,7 +81,7 @@ async def chat(req: ChatRequest):
         messages = messages[-10:]
     try:
         response = client.chat.completions.create(
-         model="llama3-8b-8192",
+         model="llama-3.1-8b-instant",
             max_tokens=400,
             messages=[{"role": "system", "content": profile["system"]}] + messages,
         )

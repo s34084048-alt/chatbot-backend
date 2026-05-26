@@ -137,8 +137,6 @@ except Exception as auth_err:
             else:
                 raise HTTPException(status_code=500, detail=f"AI error: {str(auth_err)}")
    
-        raise HTTPException(status_code=500, detail=f"AI error: {str(e)}")
-
 
 @app.post("/api/lead")
 async def capture_lead(request: Request):

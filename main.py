@@ -128,7 +128,7 @@ async def chat(req: ChatRequest):
         return ChatResponse(
             reply=reply,
             business_name=profile["name"]
-        )
+        
 except Exception as auth_err:
             if "401" in str(auth_err) or "authentication" in str(auth_err).lower():
                 raise HTTPException(status_code=401, detail="Invalid API key")

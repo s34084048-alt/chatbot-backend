@@ -8,7 +8,7 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional
-from openai import OpenAI
+from groq import Groq
 import os
 from dotenv import load_dotenv
 
@@ -25,7 +25,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 BUSINESS_PROFILES = {
     "default": {
@@ -81,7 +81,7 @@ async def chat(req: ChatRequest):
         messages = messages[-10:]
     try:
         response = client.chat.completions.create(
-            model="gpt-4o-mini",
+         model="llama3-8b-8192",
             max_tokens=400,
             messages=[{"role": "system", "content": profile["system"]}] + messages,
         )

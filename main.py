@@ -129,12 +129,14 @@ async def chat(req: ChatRequest):
             reply=reply,
             business_name=profile["name"]
         )
-
-    except anthropic.AuthenticationError:
-        raise HTTPException(status_code=401, detail="Invalid API key")
-    except anthropic.RateLimitError:
-        raise HTTPException(status_code=429, detail="Rate limit reached")
-    except Exception as e:
+except Exception as auth_err:
+            if "401" in str(auth_err) or "authentication" in str(auth_err).lower():
+                raise HTTPException(status_code=401, detail="Invalid API key")
+            elif "429" in str(auth_err) or "rate" in str(auth_err).lower():
+                raise HTTPException(status_code=429, detail="Rate limit reached")
+            else:
+                raise HTTPException(status_code=500, detail=f"AI error: {str(auth_err)}")
+   
         raise HTTPException(status_code=500, detail=f"AI error: {str(e)}")
 
 
